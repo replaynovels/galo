@@ -14,7 +14,7 @@ const NavigationBar = () => {
 
     return(
         <>
-            <ButtonComponent id="menuBtn" className={styles.mainMenuBtn} onClick={() => setShow(true)}>
+            <ButtonComponent id="menuBtn" className={styles.mainMenuBtn} onClick={() => setShow(!show)}>
                 <CgMenuRightAlt size={60} />
             </ButtonComponent>
             <Offcanvas show={show} onHide={() => setShow(false)} placement="end">
