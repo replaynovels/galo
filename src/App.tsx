@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavigationBar from './components/NavigationBar/navigationBar.component';
 import routes from './contants/routes';
 const Home = lazy(() => import("./pages/Home.page"))
+const AdminDashboard = lazy(() => import("./pages/admin/dashboard.page"))
 
 function App() {
   return (
@@ -12,6 +13,8 @@ function App() {
           <NavigationBar />
           <Routes>
             <Route path={routes.Home.path} element={<Home />} />
+            {/* Admin Routes */}
+            <Route path={routes.AdminDashboard.path} element={<AdminDashboard />} />
           </Routes>
         </Suspense>
       </Router>
