@@ -1,5 +1,4 @@
 import React, { Reducer, useEffect, useReducer } from "react";
-import { IAllowedRolesObj } from "../interfaces/roles.interface";
 import { CLEAR_AUTH } from "./reducers/auth.reducer";
 
 export interface IAuthContext {
@@ -12,14 +11,12 @@ export interface IAuth {
     authenticated: boolean;
     userName?: string;
     roles?: string[];
-    allowedRoles?: IAllowedRolesObj;
 }
 
 const AuthContext = React.createContext<IAuthContext>({
     authState: {
         authenticated: true,
         roles: [],
-        allowedRoles: {},
     },
     updateAuth: () => {},
     clearAuthState: () => {},
