@@ -1,0 +1,44 @@
+.osLoaderBasic
+    display: block
+    border-radius: 50%
+    border-style: solid dashed !important
+    -webkit-animation: loaderSpin 1s infinite linear
+    animation: loaderSpin 1s infinite linear
+    transform: perspective(75em) rotateX(45deg)
+
+.osLoaderBasicSm
+    height: 25px
+    width: 25px
+    border-top: 6px blue solid
+    border-right: 6px blue solid
+    border-bottom: 6px #008744 solid
+    border-left: 6px #008744 solid
+
+.osLoaderBasicLg
+    height: 50px
+    width: 50px
+    border-top: 10px #008744 solid
+    border-right: 10px #008744 solid
+    border-bottom: 10px #008744 solid
+    border-left: 10px #008744 solid
+
+
+@-webkit-keyframes loaderSpin 
+    from 
+        -webkit-transform: rotate(0deg)
+        transform: rotate(0deg)
+    to 
+        -webkit-transform: rotate(359deg)
+        transform: rotate(359deg)
+
+@keyframes loaderSpin
+    from
+        -webkit-transform: rotate(0deg)
+        transform: rotate(0deg)
+        -webkit-transform: rotate(0deg)
+        transform: rotate(0deg)
+    to 
+        -webkit-transform: rotate(359deg)
+        transform: rotate(359deg)
+        -webkit-transform: rotate(359deg)
+        transform: rotate(359deg)
