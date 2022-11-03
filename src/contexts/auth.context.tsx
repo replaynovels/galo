@@ -9,14 +9,31 @@ export interface IAuthContext {
 
 export interface IAuth {
     authenticated: boolean;
-    userName?: string;
-    roles?: string[];
+    accessToken?: string;
+    auth?: any;
+    displayName: string;
+    email: string;
+    emailVerified?: boolean;
+    googleToken?: string;
+    googleCredential?: any;
+    metadata?: any;
+    phoneNumber?: string | null;
+    photoURL: string | null;
+    proactiveRefresh?: any;
+    providerData?: any;
+    providerId?: string;
+    uid: string;
 }
 
 const AuthContext = React.createContext<IAuthContext>({
     authState: {
         authenticated: true,
-        roles: [],
+        accessToken: "",
+        displayName: "",
+        email: "",
+        phoneNumber: "",
+        photoURL: "",
+        uid: ""
     },
     updateAuth: () => {},
     clearAuthState: () => {},
@@ -29,6 +46,7 @@ export const AuthProvider = ({ children, reducer, initialState }: any) => {
     );
 
     const updateAuth = (type: string, payload: IAuth) => {
+        console.log("Payload: ", payload);
         authDispatch({ type, payload });
     };
 

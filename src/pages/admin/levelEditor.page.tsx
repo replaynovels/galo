@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import ReactFlow, {
     MiniMap,
     Controls,
@@ -10,124 +10,19 @@ import ReactFlow, {
 import MultiNode from "../../components/LevelEditor/multiNode.component";
 import 'reactflow/dist/style.css';
 import { MarkerType, Position } from 'reactflow';
+import ColorSelectorNode from '../../components/LevelEditor/colorSelector.component';
 
-export const initialNodes: any = [
-  {
-    id: '1',
-    type: 'input',
-    data: {
-      label: 'Input Node',
-    },
-    position: { x: 250, y: 0 },
-  },
-  {
-    id: '2',
-    data: {
-      label: 'Default Node',
-    },
-    position: { x: 100, y: 100 },
-  },
-  {
-    id: '3',
-    type: 'output',
-    data: {
-      label: 'Output Node',
-    },
-    position: { x: 400, y: 100 },
-  },
-  {
-    id: '4',
-    type: 'custom',
-    position: { x: 100, y: 200 },
-    data: {
-      selects: {
-        'handle-0': 'smoothstep',
-        'handle-1': 'smoothstep',
-      },
-    },
-  },
-  {
-    id: '5',
-    type: 'output',
-    data: {
-      label: 'custom style',
-    },
-    className: 'circle',
-    style: {
-      background: '#2B6CB0',
-      color: 'white',
-    },
-    position: { x: 400, y: 200 },
-    sourcePosition: Position.Right,
-    targetPosition: Position.Left,
-  },
-  {
-    id: '6',
-    type: 'output',
-    style: {
-      background: '#63B3ED',
-      color: 'white',
-      width: 100,
-    },
-    data: {
-      label: 'Node',
-    },
-    position: { x: 400, y: 325 },
-    sourcePosition: Position.Right,
-    targetPosition: Position.Left,
-  },
-  {
-    id: '7',
-    type: 'default',
-    className: 'annotation',
-    data: {
-      label: (
-        <>
-          On the bottom left you see the <strong>Controls</strong> and the bottom right the{' '}
-          <strong>MiniMap</strong>. This is also just a node 🥳
-        </>
-      ),
-    },
-    draggable: false,
-    selectable: false,
-    position: { x: 150, y: 400 },
-  },
-];
+const initBgColor = '#1A192B';
 
-export const initialEdges: any = [
-  { id: 'e1-2', source: '1', target: '2', label: 'this is an edge label' },
-  { id: 'e1-3', source: '1', target: '3', animated: true },
-  {
-    id: 'e4-5',
-    source: '4',
-    target: '5',
-    type: 'smoothstep',
-    sourceHandle: 'handle-0',
-    data: {
-      selectIndex: 0,
-    },
-    markerEnd: {
-      type: MarkerType.ArrowClosed,
-    },
-  },
-  {
-    id: 'e4-6',
-    source: '4',
-    target: '6',
-    type: 'smoothstep',
-    sourceHandle: 'handle-1',
-    data: {
-      selectIndex: 1,
-    },
-    markerEnd: {
-      type: MarkerType.ArrowClosed,
-    },
-  },
-];
-
-const nodeTypes = {
-    custom: MultiNode,
+const connectionLineStyle: any = { stroke: '#fff' };
+const snapGrid: any = [20, 20];
+const nodeTypes: any = {
+  selectorNode: ColorSelectorNode,
 };
+
+// const nodeTypes = {
+//     custom: MultiNode,
+// };
 
 const minimapStyle = {
     height: 120,
@@ -136,25 +31,105 @@ const minimapStyle = {
 const onInit = (reactFlowInstance: any) => console.log('flow loaded:', reactFlowInstance);
 
 const LevelEditor = () => {
-    const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-    const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-    const onConnect = useCallback((params: any) => setEdges((eds) => addEdge(params, eds)), []);
-  
-    // we are using a bit of a shortcut here to adjust the edge type
-    // this could also be done with a custom edge for example
-    const edgesWithUpdatedTypes = edges.map((edge) => {
-        if (edge.sourceHandle && nodes) {
-            const edgeType = nodes.find((node) => node.type === 'custom')?.data.selects[edge.sourceHandle];
-            edge.type = edgeType;
-        }
-        return edge;
-    });
+  const [nodes, setNodes, onNodesChange] = useNodesState([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const [bgColor, setBgColor] = useState(initBgColor);
+
+  useEffect(() => {
+    const onChange = (event: any) => {
+      setNodes((nds) =>
+        nds.map((node) => {
+          if (node.id !== '2') {
+            return node;
+          }
+
+          const color = event.target.value;
+
+          setBgColor(color);
+
+          return {
+            ...node,
+            data: {
+              ...node.data,
+              color,
+            },
+          };
+        })
+      );
+    };
+
+    setNodes([
+      {
+        id: '1',
+        type: 'input',
+        data: { label: 'An input node' },
+        position: { x: 0, y: 50 },
+        //@ts-ignore
+        sourcePosition: 'right',
+      },
+      {
+        id: '2',
+        type: 'selectorNode',
+        data: { onChange: onChange, color: initBgColor },
+        style: { border: '1px solid #777', padding: 10 },
+        position: { x: 300, y: 50 },
+      },
+      {
+        id: '3',
+        type: 'output',
+        data: { label: 'Output A' },
+        position: { x: 650, y: 25 },
+        //@ts-ignore
+        targetPosition: 'left',
+      },
+      {
+        id: '4',
+        type: 'output',
+        data: { label: 'Output B' },
+        position: { x: 650, y: 100 },
+        //@ts-ignore
+        targetPosition: 'left',
+      },
+    ]);
+
+    setEdges([
+      {
+        id: 'e1-2',
+        source: '1',
+        target: '2',
+        animated: true,
+        style: { stroke: '#fff' },
+      },
+      {
+        id: 'e2a-3',
+        source: '2',
+        target: '3',
+        sourceHandle: 'a',
+        animated: true,
+        style: { stroke: '#fff' },
+      },
+      {
+        id: 'e2b-4',
+        source: '2',
+        target: '4',
+        sourceHandle: 'b',
+        animated: true,
+        style: { stroke: '#fff' },
+      },
+    ]);
+  }, []);
+
+  const onConnect = useCallback(
+    (params: any) =>
+      setEdges((eds) => addEdge({ ...params, animated: true, style: { stroke: '#fff' } }, eds)),
+    []
+  );
 
     return (
         <div style={{width: "100%", height: "100vh"}}>
             <ReactFlow
                 nodes={nodes}
-                edges={edgesWithUpdatedTypes}
+                edges={edges}
                 onNodesChange={onNodesChange}
                 onEdgesChange={onEdgesChange}
                 onConnect={onConnect}

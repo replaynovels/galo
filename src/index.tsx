@@ -4,7 +4,8 @@ import App from './App';
 import GlobalStateProvider from './contexts/globalStateProvider';
 import reportWebVitals from './reportWebVitals';
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./styles/index.sass"
+import "./styles/index.sass";
+import "./firebase/setupFirebase";
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
