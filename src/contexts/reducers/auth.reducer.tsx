@@ -17,7 +17,7 @@ interface IAction {
     payload?: IAuth;
 }
 
-export const authReducer = async (
+export const authReducer = (
     state: IAuth = initialAuthState,
     action: IAction
 ) => {
@@ -33,10 +33,6 @@ export const authReducer = async (
                 authenticated: true,
             };
             localStorage.setItem("auth", JSON.stringify(loggedInState));
-            const {displayName, email, photoURL, uid} = action.payload;
-            await setDoc(doc(db, "users", action.payload.uid), {
-                displayName, email, photoURL, uid
-            }, {merge: true});
             return loggedInState;
         case UPDATE_AUTH:
             localStorage.setItem(
@@ -51,7 +47,7 @@ export const authReducer = async (
             localStorage.clear();
             sessionStorage.clear();
             const auth = getAuth();
-            await signOut(auth)
+            signOut(auth)
             return initialAuthState;
         default:
             return state;
