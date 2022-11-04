@@ -10,6 +10,8 @@ import routes from "../../contants/routes";
 import useAuth from "../../hooks/useAuth";
 import { IGame } from "../../interfaces/games.interface";
 import adminService from "../../services/admin.service";
+import styles from "../../styles/pages/adminGames.module.sass";
+import NewImage from "../../assets/new_label_image.png";
 
 const AdminGames = () => {
     const [games, setGames] = useState<IGame[]>([]);
@@ -47,7 +49,16 @@ const AdminGames = () => {
                 {games.map(game => {
                     return(
                         <div key={game.id}>
-                            <Link to={routes.AdminGameDetail.path.replace(":game_id", game.id)} state={game}>{game.title}</Link>
+                                <div className={styles.gameCard + " shadow"}>
+                                    <img className={styles.gameThumbnail} src={game.thumbnail || NewImage} alt="Game thumbnail" />
+                                    <Link to={routes.AdminGameDetail.path.replace(":game_id", game.id)} state={game}><header>{game.title}</header></Link>
+                                    <div className="d-flex flex-row align-items-center">
+                                        <span><strong>Last Edit: </strong>{game.updated_date}</span>
+                                        <span className="ms-5">{game.number_of_levels} Levels</span>
+                                    </div>
+                                    <div className="d-flex flex-row align-items-center">
+                                    </div>
+                                </div>
                         </div>
                     )
                 })}
