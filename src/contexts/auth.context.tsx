@@ -23,6 +23,7 @@ export interface IAuth {
     providerData?: any;
     providerId?: string;
     uid: string;
+    isAdmin?: boolean;
 }
 
 const AuthContext = React.createContext<IAuthContext>({

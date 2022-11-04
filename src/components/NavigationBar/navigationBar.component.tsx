@@ -81,8 +81,13 @@ const NavigationBar = () => {
                     <div>
                         {
                             authState.authenticated
-                            ?<ButtonComponent onClick={signOut} id="signIn">Sign Out</ButtonComponent>
+                            ?<><ButtonComponent onClick={signOut} id="signIn">Sign Out</ButtonComponent><ButtonComponent id="myGames">My Games</ButtonComponent></>
                             :<ButtonComponent onClick={signInWithGoogle} id="signIn">Sign In</ButtonComponent>
+                        }
+                        {
+                            authState?.isAdmin && (
+                                <Link to="/admin/games">Admin Dashboard</Link>
+                            )
                         }
                     </div>
                     <Link className={styles.navItem} to={routes.Home.path}>
