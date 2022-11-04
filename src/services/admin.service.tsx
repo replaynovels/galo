@@ -16,6 +16,7 @@ class AdminService {
     }   )
 
     addNewGame = async (data: {title: string, description: string, created_by: string}) => {
+        const {id} = await doc(collection(db, "games"));
         const now = new Date().toISOString();
         const requestBody: IGame = {
             title: data.title,
@@ -31,8 +32,9 @@ class AdminService {
             images: [],
             price: 0,
             level_ids: [],
+            id
         }
-        await setDoc(doc(db, "games", data.title), requestBody);
+        await setDoc(doc(db, "games", id), requestBody);
         return requestBody;
     }
 

@@ -55,5 +55,6 @@ export interface IGame {
     number_of_levels: number;
     images: any[];
     price: number;
-    level_ids: any[]
+    level_ids: any[];
+    id: string;
 }
