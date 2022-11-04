@@ -1,5 +1,5 @@
 import React from 'react';
-import AnimatedLineBackground from '../components/AnimatedBackgrounds/animatedLineBg.component';
+import AnimatedLineBackground from '../components/Animated/animatedLineBg.component';
 import { ROUTE_CLASS } from '../contants/commonClasses';
 import Logo from "../assets/logo_transparent_bg.png";
 import styles from "../styles/pages/home.module.sass";

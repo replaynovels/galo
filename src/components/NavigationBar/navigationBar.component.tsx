@@ -13,6 +13,7 @@ import { db, provider } from "../../firebase/setupFirebase";
 import useAuth from "../../hooks/useAuth";
 import { CLEAR_AUTH, LOGIN } from "../../contexts/reducers/auth.reducer";
 import { doc, getDoc, setDoc } from "firebase/firestore"; 
+import LottiePlayer from "../Animated/lottiePlayer.component";
 
 const NavigationBar = () => {
     const [show, setShow] = useState(false);
@@ -84,6 +85,15 @@ const NavigationBar = () => {
                             :<ButtonComponent onClick={signInWithGoogle} id="signIn">Sign In</ButtonComponent>
                         }
                     </div>
+                    <Link className={styles.navItem} to={routes.Home.path}>
+                        {/* <HiHome size={200} /> */}
+                        {/* https://lottiefiles.com/web-player?lottie_url=https%3A%2F%2Fassets2.lottiefiles.com%2Fprivate_files%2Flf30_LBiSi2.json   or https://lottiefiles.com/20088-home */}
+                        {/* @ts-ignore */}
+                        <LottiePlayer src="https://assets2.lottiefiles.com/private_files/lf30_LBiSi2.json"  background="transparent"  speed="1"  style={{height: 300, width: 300}}  loop autoplay mode="bounce" />
+                    </Link>
+                    <Link className={styles.navItem} to={routes.Home.path}>
+                        <LottiePlayer src="https://assets3.lottiefiles.com/packages/lf20_q92kOhRW8O.json"  background="transparent"  speed="1"  style={{height: 300, width: 300}}  loop  autoplay/>
+                    </Link>
                     <Link className={styles.menuItem} to={routes.Home.path}>
                         <HiHome size={50} />
                         <span>Home</span>
