@@ -1,10 +1,10 @@
 import { doc, setDoc, getDoc, getDocs, collection, query } from "firebase/firestore";
+import { GAMES_COLLECTION } from "../contants/collections.constant";
 import { db } from "../firebase/setupFirebase";
 import { IGame } from "../interfaces/games.interface";
 class AdminService {
     getAllGames = (): any => new Promise(async (resolve: any, reject: any) => {
-        // await getDoc(doc(db, "games"))
-        const q = query(collection(db, "games"));
+        const q = query(collection(db, GAMES_COLLECTION));
         const querySnapshot = await getDocs(q);
         let data: IGame[] = [];
         await querySnapshot.forEach(item => {
@@ -16,7 +16,7 @@ class AdminService {
     }   )
 
     addNewGame = (data: {title: string, description: string, created_by: string}): any => new Promise(async (resolve: any, reject: any) => {
-        const {id} = await doc(collection(db, "games"));
+        const {id} = await doc(collection(db, GAMES_COLLECTION));
         const now = new Date().toISOString();
         const requestBody: IGame = {
             title: data.title,
@@ -34,7 +34,7 @@ class AdminService {
             level_ids: [],
             id
         }
-        await setDoc(doc(db, "games", id), requestBody);
+        await setDoc(doc(db, GAMES_COLLECTION, id), requestBody);
         resolve(requestBody);
     })
 

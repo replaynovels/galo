@@ -14,6 +14,7 @@ import useAuth from "../../hooks/useAuth";
 import { CLEAR_AUTH, LOGIN } from "../../contexts/reducers/auth.reducer";
 import { doc, getDoc, setDoc } from "firebase/firestore"; 
 import LottiePlayer from "../Animated/lottiePlayer.component";
+import { USER_COLLECTION } from "../../contants/collections.constant";
 
 const NavigationBar = () => {
     const [show, setShow] = useState(false);
@@ -32,7 +33,7 @@ const NavigationBar = () => {
             console.log("user: ", user);
             console.log("Full Result: ", result);
             const {displayName, email, photoURL, uid} = user;
-            await setDoc(doc(db, "users", user.uid), {
+            await setDoc(doc(db, USER_COLLECTION, user.uid), {
                 displayName, email, photoURL, uid
             }, {merge: true});
             const firebaseUser = await getDoc(doc(db, "users", uid));
