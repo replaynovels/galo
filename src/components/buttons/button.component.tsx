@@ -6,12 +6,13 @@ interface IProps {
     children?: any;
     className?: string;
     onClick?: any;
+    type?: "button" | "submit" | "reset";
 }
 
 const ButtonComponent = (props: IProps) => {
     const {id, children, onClick} = props;
     return(
-        <button id={id} onClick={onClick} className={`${styles.baseBtn} ${props.className}`}>
+        <button id={id} onClick={onClick} type={props.type || "button"} className={`${styles.baseBtn} ${props.className}`}>
             {children}
         </button>
     )

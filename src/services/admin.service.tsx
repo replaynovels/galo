@@ -1,11 +1,19 @@
-import { doc, setDoc } from "firebase/firestore";
-import React from "react";
+import { doc, setDoc, getDoc, getDocs, collection, query } from "firebase/firestore";
 import { db } from "../firebase/setupFirebase";
 import { IGame } from "../interfaces/games.interface";
 class AdminService {
-    getAllGames = () => {
-
-    }
+    getAllGames = (): any => new Promise(async (resolve: any, reject: any) => {
+        // await getDoc(doc(db, "games"))
+        const q = query(collection(db, "games"));
+        const querySnapshot = await getDocs(q);
+        let data: IGame[] = [];
+        await querySnapshot.forEach(item => {
+            let itemData: any = item.data();
+            data.push(itemData);
+        });
+        console.log("Admin get all games: ", data);
+        resolve(data);
+    }   )
 
     addNewGame = async (data: {title: string, description: string, created_by: string}) => {
         const now = new Date().toISOString();
