@@ -15,7 +15,7 @@ class AdminService {
         resolve(data);
     }   )
 
-    addNewGame = async (data: {title: string, description: string, created_by: string}) => {
+    addNewGame = (data: {title: string, description: string, created_by: string}): any => new Promise(async (resolve: any, reject: any) => {
         const {id} = await doc(collection(db, "games"));
         const now = new Date().toISOString();
         const requestBody: IGame = {
@@ -35,8 +35,8 @@ class AdminService {
             id
         }
         await setDoc(doc(db, "games", id), requestBody);
-        return requestBody;
-    }
+        resolve(requestBody);
+    })
 
     editGame = () => {
 

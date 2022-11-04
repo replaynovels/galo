@@ -1,10 +1,12 @@
 import React, {useEffect, useState} from "react";
 import { Modal } from "react-bootstrap";
 import { FormProvider, useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 import ButtonComponent from "../../components/buttons/button.component";
 import TextAreaInput from "../../components/FormControls/TextAreaInput.component";
 import TextInput from "../../components/FormControls/TextInput.component";
 import { ROUTE_CLASS } from "../../contants/commonClasses";
+import routes from "../../contants/routes";
 import useAuth from "../../hooks/useAuth";
 import { IGame } from "../../interfaces/games.interface";
 import adminService from "../../services/admin.service";
@@ -15,12 +17,15 @@ const AdminGames = () => {
     const {authState} = useAuth();
     const methods = useForm();
 
-    const addGame = () => {
+    const addGame = async () => {
         const values: any = methods.getValues();
-        adminService.addNewGame({
+        const newGame = await adminService.addNewGame({
             ...values,
             created_by: authState.uid
         });
+        const copy = [...games];
+        copy.push(newGame);
+        setGames(copy);
     }
 
     const getAllGames = async () => {
@@ -41,7 +46,9 @@ const AdminGames = () => {
             <div className="d-flex flex-row flex-wrap">
                 {games.map(game => {
                     return(
-                        <div key={game.title}>{game.title}</div>
+                        <div key={game.id}>
+                            <Link to={routes.AdminGameDetail.path.replace(":game_id", game.id)}>{game.title}</Link>
+                        </div>
                     )
                 })}
             </div>
