@@ -41,3 +41,19 @@ export interface IPurchaseLevel {
 export interface ILevel {
     
 }
+
+export interface IGame {
+    title: string;
+    description: string;
+    thumbnail: string | null;
+    updated_date: string;
+    updated_by: string;
+    created_date: string;
+    created_by: string;
+    downloads: number;
+    revenue: number;
+    number_of_levels: number;
+    images: any[];
+    price: number;
+    level_ids: any[]
+}
