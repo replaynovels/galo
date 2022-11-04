@@ -25,7 +25,7 @@ const AdminGames = () => {
         });
         const copy = [...games];
         copy.push(newGame);
-        setGames(copy);
+        setGames(copy)
     }
 
     const getAllGames = async () => {
@@ -47,7 +47,7 @@ const AdminGames = () => {
                 {games.map(game => {
                     return(
                         <div key={game.id}>
-                            <Link to={routes.AdminGameDetail.path.replace(":game_id", game.id)}>{game.title}</Link>
+                            <Link to={routes.AdminGameDetail.path.replace(":game_id", game.id)} state={game}>{game.title}</Link>
                         </div>
                     )
                 })}
